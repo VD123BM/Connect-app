@@ -2,7 +2,7 @@
 
 export const dynamic = "force-dynamic"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,7 +14,7 @@ import { Users, Briefcase, Zap, MessageCircle, Star, TrendingUp, AlertCircle } f
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { getSupabaseBrowser } from "@/lib/supabaseBrowser"
 
-export default function ConnectApp() {
+function HomeClient() {
   const [loginType, setLoginType] = useState<"creator" | "brand">("creator")
   const [formData, setFormData] = useState({
     creator: { email: "", password: "" },
@@ -32,6 +32,14 @@ export default function ConnectApp() {
     } else {
       setSuccess("")
     }
+
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <HomeClient />
+    </Suspense>
+  )
+}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
   const router = useRouter()
@@ -100,6 +108,7 @@ export default function ConnectApp() {
   }
 
   return (
+    <Suspense fallback={null}>
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-secondary/20">
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
@@ -296,5 +305,6 @@ export default function ConnectApp() {
         </div>
       </main>
     </div>
+    </Suspense>
   )
 }

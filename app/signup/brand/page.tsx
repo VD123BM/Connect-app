@@ -12,7 +12,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 
 export default function BrandSignupPage() {
   const router = useRouter()
-  const supabase = getSupabaseBrowser()
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -27,6 +26,7 @@ export default function BrandSignupPage() {
     setError(null)
 
     try {
+      const supabase = getSupabaseBrowser()
       const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) throw error
 
